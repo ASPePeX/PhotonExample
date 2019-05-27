@@ -3,10 +3,8 @@ using UnityEngine;
 
 namespace PhotonExample
 {
-    public class PlayerNetwork : MonoBehaviourPun, IPunObservable
+    public class PlayerNetwork : MonoBehaviourPun
     {
-        public NwDataPlayer NwData;
-
         private void Awake()
         {
             if (!photonView.IsMine && this.GetComponent<PlayerController>() != null)
@@ -25,18 +23,6 @@ namespace PhotonExample
             }
 
             player = PhotonNetwork.Instantiate(Prefab.gameObject.name, position, rotation).GetComponent<PlayerNetwork>();
-        }
-
-        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-        {
-            if (stream.IsWriting)
-            {
-                stream.SendNext(NwData.NoseHeight);
-            }
-            else
-            {
-                NwData.NoseHeight = (float)stream.ReceiveNext();
-            }
         }
     }
 }
